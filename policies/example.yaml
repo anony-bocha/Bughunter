@@ -1,0 +1,80 @@
+# Bughunter policy for Example Program
+# Fill in the scope and authorization details, then run:
+#   bughunter validate policies/example.yaml
+#   bughunter hunt policies/example.yaml --dry-run
+#   bughunter hunt policies/example.yaml
+#
+# Set authorization.confirmed to true ONLY after you have verified that you are
+# permitted to test every asset in scope. Bughunter refuses to run otherwise.
+
+program:
+  name: "Example Program"
+  platform: ""
+  policy_url: ""
+  contact: "security@example.com"
+  authorization:
+    confirmed: false
+    authorized_by: ""
+    date: ""
+    policy_url: ""
+
+scope:
+  # A bare domain covers the apex and all subdomains.
+  # "*.example.com" covers subdomains only (not the apex).
+  domains:
+    - example.com
+  exclusions:
+    - "status.example.com"
+  ip_ranges: []
+
+rules:
+  # passive      = public passive sources only, no packets to the target
+  # safe-active  = allow the low-impact checks below, under strict limits
+  mode: passive
+  allowed_methods: [GET, HEAD]
+  allowed_ports: [80, 443]
+  max_requests_per_host_per_minute: 20
+  max_total_requests: 400
+  max_runtime_seconds: 1200
+  request_timeout_seconds: 15
+  max_hosts: 150
+  max_pages_per_host: 3
+  max_js_files_per_host: 15
+  max_paths_per_host: 12
+  max_hosts_for_exposed_checks: 8
+  max_hosts_for_deep_checks: 15
+  max_body_bytes: 2000000
+  max_redirects: 4
+  respect_robots_txt: true
+  allow_private_addresses: false
+  allow_out_of_scope_redirects: false
+  forbidden_paths:
+    - "/logout*"
+    - "/signout*"
+    - "/delete*"
+    - "/remove*"
+    - "/admin/delete*"
+    - "/api/*/delete*"
+    - "/checkout*"
+    - "/purchase*"
+    - "/unsubscribe*"
+
+  passive_sources:
+    crtsh: true
+    wayback: true
+    max_crtsh_results: 1000
+    max_wayback_urls: 2000
+
+  active_checks:
+    enabled: false
+    security_headers: true
+    cookies: true
+    cors: true
+    exposed_files: true
+    graphql_introspection: false
+    takeover_fingerprints: true
+    tls: true
+
+metadata:
+  owner: ""
+  notes: "No denial-of-service, brute force, or destructive testing."

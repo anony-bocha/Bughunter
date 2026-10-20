@@ -1,0 +1,65 @@
+# Local end-to-end demo policy.
+#
+# localtest.me is a public DNS name that resolves to 127.0.0.1. This policy is
+# intentionally scoped to it with allow_private_addresses: true so the local
+# demo server can be tested. Do not copy these settings to a real program:
+# keep allow_private_addresses false and scope only real targets you are
+# authorized to test.
+
+program:
+  name: "Local Demo (localtest.me)"
+  platform: "Local lab"
+  policy_url: "http://127.0.0.1:8000/"
+  contact: "local-demo@example.invalid"
+  authorization:
+    confirmed: true
+    authorized_by: "Local demo operator (you, on your own machine)"
+    date: "2026-10-20"
+    policy_url: "http://127.0.0.1:8000/"
+
+scope:
+  domains:
+    - localtest.me
+  exclusions: []
+  ip_ranges: []
+
+rules:
+  mode: safe-active
+  allowed_methods: [GET, HEAD, POST]
+  allowed_ports: [8000]
+  max_requests_per_host_per_minute: 120
+  max_total_requests: 200
+  max_runtime_seconds: 300
+  request_timeout_seconds: 5
+  max_hosts: 5
+  max_pages_per_host: 3
+  max_js_files_per_host: 5
+  max_paths_per_host: 16
+  max_hosts_for_exposed_checks: 3
+  max_hosts_for_deep_checks: 3
+  max_body_bytes: 500000
+  max_redirects: 3
+  respect_robots_txt: true
+  allow_private_addresses: true
+  allow_out_of_scope_redirects: false
+  forbidden_paths:
+    - "/logout*"
+    - "/delete*"
+
+  passive_sources:
+    crtsh: false
+    wayback: false
+
+  active_checks:
+    enabled: true
+    security_headers: true
+    cookies: true
+    cors: true
+    exposed_files: true
+    graphql_introspection: true
+    takeover_fingerprints: true
+    tls: false
+
+metadata:
+  owner: "Local demo"
+  notes: "Deliberately vulnerable local server. Never deploy this policy against a real target."

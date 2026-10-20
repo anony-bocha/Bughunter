@@ -1,0 +1,50 @@
+program:
+  name: "Test Active Program"
+  platform: "Local Test"
+  policy_url: "https://target.test/policy"
+  contact: "security@target.test"
+  authorization:
+    confirmed: true
+    authorized_by: "Test Suite"
+    date: "2026-10-20"
+    policy_url: "https://target.test/policy"
+
+scope:
+  domains:
+    - target.test
+  exclusions:
+    - excluded.target.test
+  ip_ranges: []
+
+rules:
+  mode: safe-active
+  allowed_methods: [GET, HEAD, POST]
+  allowed_ports: [80, 443]
+  max_requests_per_host_per_minute: 100000
+  max_total_requests: 100
+  max_runtime_seconds: 300
+  request_timeout_seconds: 5
+  max_hosts: 20
+  max_pages_per_host: 2
+  max_js_files_per_host: 2
+  max_paths_per_host: 4
+  max_hosts_for_exposed_checks: 2
+  max_hosts_for_deep_checks: 2
+  max_body_bytes: 500000
+  respect_robots_txt: false
+  allow_private_addresses: false
+  forbidden_paths:
+    - "/logout*"
+    - "/delete*"
+  passive_sources:
+    crtsh: false
+    wayback: false
+  active_checks:
+    enabled: true
+    security_headers: true
+    cookies: true
+    cors: true
+    exposed_files: true
+    graphql_introspection: true
+    takeover_fingerprints: true
+    tls: false

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.bughunter/
+reports/
+policies/*.local.yaml
+.demo-state/
+.demo-reports/
+.tmp-state/
+.tmp-reports/
+.debug_*.py

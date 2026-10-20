@@ -1,0 +1,43 @@
+program:
+  name: "Test Passive Program"
+  platform: "Local Test"
+  policy_url: "https://example.com/policy"
+  contact: "security@example.com"
+  authorization:
+    confirmed: true
+    authorized_by: "Test Suite"
+    date: "2026-10-20"
+    policy_url: "https://example.com/policy"
+
+scope:
+  domains:
+    - example.com
+    - "*.example.org"
+  exclusions:
+    - "admin.internal.example.org"
+    - "old.example.com"
+  ip_ranges: []
+
+rules:
+  mode: passive
+  allowed_methods: [GET, HEAD]
+  allowed_ports: [80, 443]
+  max_requests_per_host_per_minute: 20
+  max_total_requests: 400
+  max_runtime_seconds: 1200
+  request_timeout_seconds: 15
+  max_hosts: 150
+  max_pages_per_host: 3
+  max_js_files_per_host: 15
+  max_paths_per_host: 12
+  max_body_bytes: 2000000
+  respect_robots_txt: true
+  allow_private_addresses: false
+  forbidden_paths:
+    - "/logout*"
+    - "/delete*"
+  passive_sources:
+    crtsh: true
+    wayback: true
+  active_checks:
+    enabled: false
